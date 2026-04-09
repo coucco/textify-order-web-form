@@ -10,14 +10,14 @@
   --bg:          #f2f3f5;
   --surface:     rgba(255,255,255,0.82);
   --ink:         #0d0e12;
-  --ink-60:      rgba(13,14,18,0.55);
-  --ink-30:      rgba(13,14,18,0.28);
-  --ink-10:      rgba(13,14,18,0.07);
+  --ink-60:      rgba(13,14,18,0.8);
+  --ink-30:      rgba(13,14,18,0.7);
+  --ink-10:      rgba(13,14,18,0.2);
   --accent:      #4361ee;
-  --accent-dim:  rgba(67,97,238,0.09);
-  --border:      rgba(13,14,18,0.09);
+  --accent-dim:  rgba(67,97,238,0.2);
+  --border:      rgba(13,14,18,0.2);
   --error:       #c0392b;
-  --error-dim:   rgba(192,57,43,0.07);
+  --error-dim:   rgba(192,57,43,0.2);
   --radius-md:   14px;
   --radius-lg:   18px;
   --shadow-sm:   0 1px 8px rgba(13,14,18,0.05), 0 0 0 0.5px var(--border);
@@ -532,12 +532,12 @@ body {
     --bg:        #0e0f13;
     --surface:   rgba(20,21,28,0.85);
     --ink:       #e8eaf0;
-    --ink-60:    rgba(232,234,240,0.7);
-    --ink-30:    rgba(232,234,240,0.35);
-    --ink-10:    rgba(232,234,240,0.1);
-    --border:    rgba(232,234,240,0.1);
-    --accent-dim:rgba(67,97,238,0.15);
-    --error-dim: rgba(192,57,43,0.18);
+    --ink-60:    rgba(232,234,240,0.8);
+    --ink-30:    rgba(232,234,240,0.7);
+    --ink-10:    rgba(232,234,240,0.2);
+    --border:    rgba(232,234,240,0.2);
+    --accent-dim:rgba(67,97,238,0.2);
+    --error-dim: rgba(192,57,43,0.15);
   }
   .bg-grid {
     background-image:
