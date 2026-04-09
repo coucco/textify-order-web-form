@@ -150,7 +150,12 @@ function validate() {
   if (!data.workType) { setErr(F.work.wrap); ok = false; }
 
   // required: theme
-  data.theme = F.theme.el.value.trim() || null;
+  const dk = F.theme.el.value.trim();
+  if (!dk) {
+    setErr(F.theme.wrap);
+    ok = false;
+  }
+  data.theme = dk || null;
 
   // optional: deadline
   const dl = F.deadline.el.value.trim();
