@@ -532,12 +532,12 @@ body {
     --bg:        #0e0f13;
     --surface:   rgba(20,21,28,0.85);
     --ink:       #e8eaf0;
-    --ink-60:    rgba(232,234,240,0.52);
-    --ink-30:    rgba(232,234,240,0.24);
-    --ink-10:    rgba(232,234,240,0.06);
-    --border:    rgba(232,234,240,0.08);
-    --accent-dim:rgba(67,97,238,0.12);
-    --error-dim: rgba(192,57,43,0.1);
+    --ink-60:    rgba(232,234,240,0.7);
+    --ink-30:    rgba(232,234,240,0.35);
+    --ink-10:    rgba(232,234,240,0.1);
+    --border:    rgba(232,234,240,0.1);
+    --accent-dim:rgba(67,97,238,0.15);
+    --error-dim: rgba(192,57,43,0.2);
   }
   .bg-grid {
     background-image:
