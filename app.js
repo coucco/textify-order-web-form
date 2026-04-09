@@ -88,7 +88,7 @@ F.deadline.el.addEventListener('input', function () {
 });
 
 // ── Clear errors on input ────────────────────────────────────────────────────
-['name', 'surname', 'work', 'reqs', 'comment'].forEach(k => {
+['name', 'surname', 'work', 'theme', 'reqs', 'comment'].forEach(k => {
   F[k].el.addEventListener('input', () => clearErr(F[k].wrap));
   F[k].el.addEventListener('change', () => clearErr(F[k].wrap));
 });
