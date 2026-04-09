@@ -29,7 +29,7 @@
     <div class="success-eyebrow">Заказ принят</div>
     <div class="success-title">Ожидаем когда специалист возьмет его в работу</div>
     <div class="success-divider"></div>
-    <div class="success-sub">За статусом заказа можете следить в Telegram боте сервиса - https://t.me/Textify_user_bot</div>
+    <div class="success-sub">За статусом заказа можете следить в Telegram боте сервиса - t.me/Textify_user_bot</div>
   </div>
 
   <!-- ── Main form ────────────────────────────────────────── -->
@@ -128,6 +128,7 @@
     <section class="section">
       <div class="section-header">
         <span class="section-label">Тип работы</span>
+        <span class="section-badge">обязательно</span>
       </div>
       <div class="card">
 
@@ -153,7 +154,23 @@
       </div>
     </section>
 
-    <!-- ── 3. Deadline (optional) ───────────────────────── -->
+    <!-- ── 3. Work Theme (required, auto-grow) ────────── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Тема</span>
+        <span class="section-badge">обязательно</span>
+      </div>
+      <div class="card">
+
+        <div class="field" id="f-theme">
+          <textarea id="theme" rows="1" required
+            placeholder="Генерация новых инструментов на основе музыкального произведения с помощью нейронных сетей"></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 4. Deadline (optional) ───────────────────────── -->
     <section class="section">
       <div class="section-header">
         <span class="section-label">Срок сдачи</span>
@@ -178,7 +195,7 @@
       </div>
     </section>
 
-    <!-- ── 4. Requirements (optional, auto-grow) ────────── -->
+    <!-- ── 5. Requirements (optional, auto-grow) ────────── -->
     <section class="section">
       <div class="section-header">
         <span class="section-label">Требования</span>
@@ -188,13 +205,13 @@
 
         <div class="field" id="f-reqs">
           <textarea id="reqs" rows="2"
-            placeholder="Тема, объём страниц, источники, ГОСТ, уникальность и другие требования..."></textarea>
+            placeholder="Цели работы, Объём страниц, источники, ГОСТ, уникальность и другие требования..."></textarea>
         </div>
 
       </div>
     </section>
 
-    <!-- ── 5. Comment (optional, auto-grow) ─────────────── -->
+    <!-- ── 6. Comment (optional, auto-grow) ─────────────── -->
     <section class="section">
       <div class="section-header">
         <span class="section-label">Комментарий</span>
@@ -205,6 +222,22 @@
         <div class="field" id="f-comment">
           <textarea id="comment" rows="2"
             placeholder="Любые уточнения, пожелания или вопросы..."></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 7. Promo (optional) ─────────────── -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Промокод</span>
+        <span class="section-badge">необязательно</span>
+      </div>
+      <div class="card">
+
+        <div class="field" id="f-promo">
+          <textarea id="promo" rows="1"
+            placeholder="Реферальное промо для получения ссылки"></textarea>
         </div>
 
       </div>

@@ -22,9 +22,11 @@ const F = {
   phone:    { el: $('phone'),     wrap: $('f-phone')    },
   tg:       { el: $('tgUser'),    wrap: $('f-tg')       },
   work:     { el: $('workType'),  wrap: $('f-work')     },
+  theme:     { el: $('theme'),  wrap: $('f-theme')     },
   deadline: { el: $('deadline'),  wrap: $('f-deadline') },
   reqs:     { el: $('reqs'),      wrap: $('f-reqs')     },
   comment:  { el: $('comment'),   wrap: $('f-comment')  },
+  promo:  { el: $('promo'),   wrap: $('f-promo')  },
 };
 
 const priceCard    = $('priceCard');
@@ -147,6 +149,9 @@ function validate() {
   data.workType = F.work.el.value;
   if (!data.workType) { setErr(F.work.wrap); ok = false; }
 
+  // required: theme
+  data.theme = F.theme.el.value.trim() || null;
+
   // optional: deadline
   const dl = F.deadline.el.value.trim();
   if (dl && !isValidDate(dl)) {
@@ -158,6 +163,9 @@ function validate() {
   // optional: reqs, comment
   data.requirements = F.reqs.el.value.trim() || null;
   data.comment      = F.comment.el.value.trim() || null;
+
+  //optional: promo
+  data.promo      = F.promo.el.value.trim() || null;
 
   if (!ok) return null;
 
