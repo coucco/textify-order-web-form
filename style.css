@@ -1,0 +1,516 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream:       #f7f4ef;
+  --cream-dark:  #ede9e1;
+  --ink:         #1a1814;
+  --ink-60:      rgba(26,24,20,0.6);
+  --ink-30:      rgba(26,24,20,0.3);
+  --ink-10:      rgba(26,24,20,0.08);
+  --gold:        #b89c6e;
+  --gold-light:  #d4bc94;
+  --glass-bg:    rgba(255,252,247,0.72);
+  --glass-edge:  rgba(255,252,247,0.9);
+  --border:      rgba(26,24,20,0.1);
+  --border-focus:rgba(184,156,110,0.55);
+  --success:     #4a7c59;
+  --error:       #9b3a3a;
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --shadow-sm:   0 2px 12px rgba(26,24,20,0.06);
+  --shadow-md:   0 8px 32px rgba(26,24,20,0.1);
+  --shadow-gold: 0 4px 24px rgba(184,156,110,0.25);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Background ─────────────────────────────────────── */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.bg-blob-1 {
+  width: 600px; height: 500px;
+  top: -160px; right: -100px;
+  background: radial-gradient(ellipse, #d9ccb3 0%, transparent 70%);
+  opacity: 0.55;
+}
+
+.bg-blob-2 {
+  width: 400px; height: 400px;
+  bottom: 60px; left: -120px;
+  background: radial-gradient(ellipse, #c9bfa8 0%, transparent 70%);
+  opacity: 0.4;
+}
+
+.bg-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 59px,
+      rgba(26,24,20,0.025) 59px,
+      rgba(26,24,20,0.025) 60px
+    );
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 32px 20px 120px;
+  min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: fadeDown 0.6s ease both;
+}
+
+.header-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.header-line {
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+  margin: 14px auto 0;
+  opacity: 0.7;
+}
+
+/* ── Section ────────────────────────────────────────── */
+.section {
+  margin-bottom: 20px;
+  animation: fadeUp 0.55s ease both;
+}
+
+.section:nth-child(2) { animation-delay: 0.07s; }
+.section:nth-child(3) { animation-delay: 0.14s; }
+.section:nth-child(4) { animation-delay: 0.21s; }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+/* ── Card ───────────────────────────────────────────── */
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:focus-within {
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Field ──────────────────────────────────────────── */
+.field {
+  position: relative;
+  padding: 14px 18px 13px;
+  border-bottom: 0.5px solid var(--border);
+  transition: background 0.2s ease;
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.field:focus-within {
+  background: rgba(255,252,247,0.5);
+}
+
+.field label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin-bottom: 5px;
+  transition: color 0.2s;
+}
+
+.field:focus-within label {
+  color: var(--gold);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--ink);
+  -webkit-appearance: none;
+  appearance: none;
+  caret-color: var(--gold);
+}
+
+.field input::placeholder {
+  color: var(--ink-30);
+  font-weight: 300;
+}
+
+.field select {
+  cursor: pointer;
+  padding-right: 20px;
+}
+
+.field-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-30);
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.field:focus-within .field-icon {
+  color: var(--gold-light);
+}
+
+/* ── Field validation ───────────────────────────────── */
+.field.invalid label { color: var(--error); }
+.field.invalid input,
+.field.invalid select { color: var(--error); }
+
+.field-error {
+  font-size: 11px;
+  color: var(--error);
+  margin-top: 4px;
+  display: none;
+  animation: shake 0.3s ease;
+}
+
+.field.invalid .field-error { display: block; }
+
+/* ── Price card ─────────────────────────────────────── */
+.price-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  animation: fadeUp 0.55s ease 0.21s both;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.price-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/*.price-label-wrap {}*/
+
+.price-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin-bottom: 4px;
+}
+
+.price-service {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.price-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.price-amount span {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--ink-60);
+  margin-left: 2px;
+}
+
+/* ── Pay button ─────────────────────────────────────── */
+.pay-wrap {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--cream) 60%, transparent);
+}
+
+.pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--ink);
+  color: #f7f4ef;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 17px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(26,24,20,0.22);
+}
+
+.pay-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+}
+
+.pay-btn:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(26,24,20,0.3);
+}
+
+.pay-btn:not(:disabled):active {
+  transform: translateY(0) scale(0.98);
+}
+
+.pay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pay-btn .btn-icon {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+}
+
+.btn-shimmer {
+  position: absolute;
+  top: 0; left: -120%;
+  width: 80%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 2.4s ease infinite;
+}
+
+/* ── Spinner ────────────────────────────────────────── */
+.spinner {
+  width: 16px; height: 16px;
+  border: 1.5px solid rgba(247,244,239,0.3);
+  border-top-color: #f7f4ef;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── Success screen ──────────────────────────────────── */
+.success-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+  gap: 20px;
+  padding: 40px 24px;
+}
+
+.success-screen.show {
+  display: flex;
+}
+
+.success-ring {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+  position: relative;
+}
+
+.success-ring::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  opacity: 0.18;
+}
+
+.success-ring svg {
+  width: 28px; height: 28px;
+  color: var(--gold);
+  animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+}
+
+.success-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  animation: fadeUp 0.5s ease 0.2s both;
+}
+
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--ink);
+  animation: fadeUp 0.5s ease 0.25s both;
+}
+
+.success-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--ink-60);
+  line-height: 1.6;
+  max-width: 260px;
+  animation: fadeUp 0.5s ease 0.3s both;
+}
+
+.success-divider {
+  width: 32px; height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+  animation: fadeUp 0.5s ease 0.28s both;
+}
+
+/* ── Animations ─────────────────────────────────────── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0%   { left: -120%; }
+  60%  { left: 120%; }
+  100% { left: 120%; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-4px); }
+  75%       { transform: translateX(4px); }
+}
+
+/* ── Dark mode (follows Telegram theme) ──────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cream:      #18160f;
+    --cream-dark: #211e15;
+    --ink:        #ede9df;
+    --ink-60:     rgba(237,233,223,0.55);
+    --ink-30:     rgba(237,233,223,0.25);
+    --ink-10:     rgba(237,233,223,0.06);
+    --glass-bg:   rgba(30,27,18,0.75);
+    --border:     rgba(237,233,223,0.1);
+  }
+  .bg-blob-1 { background: radial-gradient(ellipse, #2e2a1f 0%, transparent 70%); opacity: 0.8; }
+  .bg-blob-2 { background: radial-gradient(ellipse, #252015 0%, transparent 70%); opacity: 0.7; }
+  .bg-lines  { background-image: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(237,233,223,0.025) 59px, rgba(237,233,223,0.025) 60px); }
+  .pay-btn   { background: var(--gold); color: #18160f; box-shadow: 0 4px 20px rgba(184,156,110,0.3); }
+  .pay-btn .btn-shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); }
+  .pay-wrap  { background: linear-gradient(to top, var(--cream) 60%, transparent); }
+}

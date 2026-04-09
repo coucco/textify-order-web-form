@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#f7f4ef">
+  <title>Заказ услуги</title>
+
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient background -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg-grain"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-lines"></div>
+  </div>
+
+  <!-- ── Success screen ──────────────────────────────── -->
+  <div class="success-screen" id="successScreen" role="status" aria-live="polite">
+    <div class="success-ring">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="success-eyebrow">Готово</div>
+    <div class="success-title">Оплата прошла</div>
+    <div class="success-divider"></div>
+    <div class="success-sub">Ваш заказ принят. Мастер свяжется с вами в течение часа.</div>
+  </div>
+
+  <!-- ── Main form ────────────────────────────────────── -->
+  <main class="app" id="formWrap">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-eyebrow">Мастер на час</div>
+      <h1>Оформление<br>заказа</h1>
+      <div class="header-line"></div>
+    </header>
+
+    <!-- Contact info -->
+    <section class="section">
+      <div class="section-label">Контакты</div>
+      <div class="card">
+
+        <div class="field" id="f-name">
+          <label for="firstName">Имя</label>
+          <input
+            type="text"
+            id="firstName"
+            placeholder="Иван"
+            autocomplete="given-name"
+            inputmode="text"
+          >
+          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <div class="field-error">Введите имя</div>
+        </div>
+
+        <div class="field" id="f-surname">
+          <label for="lastName">Фамилия</label>
+          <input
+            type="text"
+            id="lastName"
+            placeholder="Иванов"
+            autocomplete="family-name"
+            inputmode="text"
+          >
+          <div class="field-error">Введите фамилию</div>
+        </div>
+
+        <div class="field" id="f-phone">
+          <label for="phone">Телефон</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="+7 900 000-00-00"
+            autocomplete="tel"
+            inputmode="tel"
+            maxlength="16"
+          >
+          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+                     19.79-19.79 0 0 1-8.63-3.07
+                     19.5 19.5 0 0 1-6-6
+                     19.79-19.79 0 0 1-3.07-8.67
+                     A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72
+                     c.127.96.361 1.903.7 2.81
+                     a2 2 0 0 1-.45 2.11L8.09 9.91
+                     a16 16 0 0 0 6 6l1.27-1.27
+                     a2 2 0 0 1 2.11-.45
+                     c.907.339 1.85.573 2.81.7
+                     A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <div class="field-error">Введите корректный номер</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Work type -->
+    <section class="section">
+      <div class="section-label">Вид работы</div>
+      <div class="card">
+
+        <div class="field" id="f-work">
+          <label for="workType">Услуга</label>
+          <select id="workType">
+            <option value="">Выберите услугу</option>
+            <option value="plumbing">Сантехника</option>
+            <option value="electrical">Электрика</option>
+            <option value="painting">Покраска / штукатурка</option>
+            <option value="tiling">Укладка плитки</option>
+            <option value="flooring">Напольные покрытия</option>
+            <option value="carpentry">Столярные работы</option>
+            <option value="welding">Сварочные работы</option>
+            <option value="roofing">Кровельные работы</option>
+            <option value="hvac">Отопление / вентиляция</option>
+            <option value="cleaning">Уборка / клининг</option>
+            <option value="moving">Грузоперевозки / переезд</option>
+            <option value="landscaping">Ландшафтные работы</option>
+            <option value="other">Другое</option>
+          </select>
+          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+          <div class="field-error">Выберите вид работы</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Price summary (hidden until service selected) -->
+    <div class="price-card" id="priceCard">
+      <div class="price-label-wrap">
+        <div class="price-label">К оплате</div>
+        <div class="price-service" id="priceService"></div>
+      </div>
+      <div class="price-amount" id="priceAmount"></div>
+    </div>
+
+  </main>
+
+  <!-- ── Fixed pay button ──────────────────────────────── -->
+  <div class="pay-wrap" id="payWrap">
+    <button class="pay-btn" id="payBtn" onclick="handlePay()">
+      <div class="btn-shimmer"></div>
+      <span id="btnLabel" style="display:flex;align-items:center;gap:10px;position:relative;">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="3"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+        Оплатить
+      </span>
+    </button>
+  </div>
+
+  <!-- Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
