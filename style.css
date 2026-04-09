@@ -537,7 +537,7 @@ body {
     --ink-10:    rgba(232,234,240,0.1);
     --border:    rgba(232,234,240,0.1);
     --accent-dim:rgba(67,97,238,0.15);
-    --error-dim: rgba(192,57,43,0.2);
+    --error-dim: rgba(192,57,43,0.18);
   }
   .bg-grid {
     background-image:
