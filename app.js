@@ -10,7 +10,7 @@ const PRICES = {
   essay:      { label: 'Эссе',             price: 1200  },
   practice:   { label: 'Отчёт по практике',price: 4200  },
   article:    { label: 'Научная статья',   price: 6800  },
-  other:      { label: 'Другое',           price: 2000  },
+  other:      { label: 'Другое',           price: 1  },
 };
 
 // ── DOM ──────────────────────────────────────────────────────────────────────
@@ -191,14 +191,7 @@ async function handlePay() {
   setLoading(true);
 
   try {
-    /*
-     * ЗАМЕНИТЕ URL на адрес вашего сервера.
-     * Сервер:
-     *   1. Принимает JSON с данными формы
-     *   2. Создаёт платёж через YooKassa API (server-side)
-     *   3. Возвращает { confirmation_url } или { success: true }
-     */
-    const res  = await fetch('https://your-server.example.com/api/payment/create', {
+    const res  = await fetch('https://144.31.101.113.nip.io/api/payment/create', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
