@@ -3,14 +3,14 @@ if (tg) { tg.ready(); tg.expand(); }
 
 // ── Prices ──────────────────────────────────────────────────────────────────
 const PRICES = {
-  coursework: { label: 'Курсовая работа',  price: 3500  },
-  diploma:    { label: 'Дипломная работа', price: 9900  },
-  project:    { label: 'Проект',           price: 5500  },
-  report:     { label: 'Доклад / реферат', price: 1800  },
-  essay:      { label: 'Эссе',             price: 1200  },
-  practice:   { label: 'Отчёт по практике',price: 4200  },
-  article:    { label: 'Научная статья',   price: 6800  },
-  other:      { label: 'Другое',           price: 1  },
+  coursework: { label: 'Курсовая работа',   price: 3500 },
+  diploma:    { label: 'Дипломная работа',  price: 9900 },
+  project:    { label: 'Проект',            price: 5500 },
+  report:     { label: 'Доклад / реферат',  price: 1800 },
+  essay:      { label: 'Эссе',              price: 1200 },
+  practice:   { label: 'Отчёт по практике', price: 4200 },
+  article:    { label: 'Научная статья',    price: 6800 },
+  other:      { label: 'Другое',            price: 1    },
 };
 
 // ── DOM ──────────────────────────────────────────────────────────────────────
@@ -22,11 +22,11 @@ const F = {
   phone:    { el: $('phone'),     wrap: $('f-phone')    },
   tg:       { el: $('tgUser'),    wrap: $('f-tg')       },
   work:     { el: $('workType'),  wrap: $('f-work')     },
-  theme:     { el: $('theme'),  wrap: $('f-theme')     },
+  theme:    { el: $('theme'),     wrap: $('f-theme')    },
   deadline: { el: $('deadline'),  wrap: $('f-deadline') },
   reqs:     { el: $('reqs'),      wrap: $('f-reqs')     },
   comment:  { el: $('comment'),   wrap: $('f-comment')  },
-  promo:  { el: $('promo'),   wrap: $('f-promo')  },
+  promo:    { el: $('promo'),     wrap: $('f-promo')    },
 };
 
 const priceCard    = $('priceCard');
@@ -39,13 +39,97 @@ const successScreen= $('successScreen');
 const formWrap     = $('formWrap');
 const payWrap      = $('payWrap');
 
+function clearErr(wrap) { wrap.classList.remove('invalid'); }
+function setErr(wrap)   { wrap.classList.add('invalid'); }
+
+// ── Custom select ────────────────────────────────────────────────────────────
+const csTrigger = $('workTypeTrigger');
+const csList    = $('workTypeList');
+const csValue   = $('workTypeValue');
+const csNative  = $('workType');
+
+let csIsOpen = false;
+
+function csPosition() {
+  const r = csTrigger.getBoundingClientRect();
+  csList.style.top   = (r.bottom + 6) + 'px';
+  csList.style.left  = r.left + 'px';
+  csList.style.width = r.width + 'px';
+}
+
+function csOpen() {
+  csIsOpen = true;
+  csPosition();
+  csList.style.display = 'block';
+  // force reflow then animate
+  csList.getBoundingClientRect();
+  csList.classList.add('open');
+  csTrigger.setAttribute('aria-expanded', 'true');
+  csTrigger.classList.add('active');
+}
+
+function csClose() {
+  csIsOpen = false;
+  csList.classList.remove('open');
+  csList.style.display = 'none';
+  csTrigger.setAttribute('aria-expanded', 'false');
+  csTrigger.classList.remove('active');
+}
+
+csTrigger.addEventListener('mousedown', e => {
+  e.preventDefault();
+  csIsOpen ? csClose() : csOpen();
+});
+csTrigger.addEventListener('touchend', e => {
+  e.preventDefault();
+  csIsOpen ? csClose() : csOpen();
+});
+
+csList.querySelectorAll('.cselect-option').forEach(opt => {
+  const pick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const val   = opt.dataset.value;
+    const label = PRICES[val] ? PRICES[val].label : val;
+
+    csValue.textContent = label;
+    csValue.classList.add('selected');
+    csNative.value = val;
+
+    csList.querySelectorAll('.cselect-option').forEach(o => o.classList.remove('chosen'));
+    opt.classList.add('chosen');
+    clearErr(F.work.wrap);
+    csClose();
+
+    const s = PRICES[val];
+    if (s) {
+      priceService.textContent = s.label;
+      priceAmount.innerHTML    = s.price.toLocaleString('ru-RU') + '<span>₽</span>';
+      priceCard.classList.add('visible');
+    } else {
+      priceCard.classList.remove('visible');
+    }
+  };
+  opt.addEventListener('mousedown', pick);
+  opt.addEventListener('touchend',  pick);
+});
+
+document.addEventListener('mousedown', e => {
+  if (csIsOpen && !csTrigger.contains(e.target) && !csList.contains(e.target)) csClose();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') csClose();
+});
+window.addEventListener('scroll', () => { if (csIsOpen) csPosition(); }, true);
+window.addEventListener('resize', () => { if (csIsOpen) csPosition(); });
+
 // ── Auto-grow textareas ──────────────────────────────────────────────────────
 function autoGrow(el) {
   el.style.height = 'auto';
   el.style.height = el.scrollHeight + 'px';
 }
-
-[F.reqs.el, F.comment.el].forEach(ta => {
+[F.reqs.el, F.comment.el, F.theme.el, F.promo.el].forEach(ta => {
   ta.addEventListener('input', () => autoGrow(ta));
 });
 
@@ -55,29 +139,28 @@ F.phone.el.addEventListener('input', function () {
   if (v.startsWith('8')) v = '7' + v.slice(1);
   if (!v) { this.value = ''; return; }
   let f = '+';
-  if (v.length >= 1) f += v.slice(0, 1);
-  if (v.length >= 2) f += ' ' + v.slice(1, 4);
-  if (v.length >= 5) f += ' ' + v.slice(4, 7);
-  if (v.length >= 8) f += '-' + v.slice(7, 9);
+  if (v.length >= 1)  f += v.slice(0, 1);
+  if (v.length >= 2)  f += ' ' + v.slice(1, 4);
+  if (v.length >= 5)  f += ' ' + v.slice(4, 7);
+  if (v.length >= 8)  f += '-' + v.slice(7, 9);
   if (v.length >= 10) f += '-' + v.slice(9, 11);
   this.value = f;
   clearErr(F.phone.wrap);
   contactError.classList.remove('show');
 });
 
-// ── Telegram username — enforce @ prefix ─────────────────────────────────────
+// ── Telegram @username ────────────────────────────────────────────────────────
 F.tg.el.addEventListener('input', function () {
   let v = this.value.trim();
   if (v && !v.startsWith('@')) this.value = '@' + v.replace(/^@+/, '');
   clearErr(F.tg.wrap);
   contactError.classList.remove('show');
 });
-
 F.tg.el.addEventListener('blur', function () {
   if (this.value === '@') this.value = '';
 });
 
-// ── Date formatting — dd.mm.yyyy ─────────────────────────────────────────────
+// ── Date formatting dd.mm.yyyy ────────────────────────────────────────────────
 F.deadline.el.addEventListener('input', function () {
   let v = this.value.replace(/\D/g, '');
   if (v.length > 2) v = v.slice(0, 2) + '.' + v.slice(2);
@@ -88,35 +171,19 @@ F.deadline.el.addEventListener('input', function () {
 });
 
 // ── Clear errors on input ────────────────────────────────────────────────────
-['name', 'surname', 'work', 'theme', 'reqs', 'comment'].forEach(k => {
-  F[k].el.addEventListener('input', () => clearErr(F[k].wrap));
+['name', 'surname', 'theme', 'reqs', 'comment'].forEach(k => {
+  F[k].el.addEventListener('input',  () => clearErr(F[k].wrap));
   F[k].el.addEventListener('change', () => clearErr(F[k].wrap));
 });
 
-function clearErr(wrap) { wrap.classList.remove('invalid'); }
-function setErr(wrap)   { wrap.classList.add('invalid'); }
-
-// ── Work type → price card ───────────────────────────────────────────────────
-F.work.el.addEventListener('change', function () {
-  clearErr(F.work.wrap);
-  const s = PRICES[this.value];
-  if (s) {
-    priceService.textContent = s.label;
-    priceAmount.innerHTML    = s.price.toLocaleString('ru-RU') + '<span>₽</span>';
-    priceCard.classList.add('visible');
-  } else {
-    priceCard.classList.remove('visible');
-  }
-});
-
-// ── Validate date dd.mm.yyyy ──────────────────────────────────────────────────
+// ── Date validation ───────────────────────────────────────────────────────────
 function isValidDate(s) {
-  if (!s) return true; // optional
+  if (!s) return true;
   if (!/^\d{2}\.\d{2}\.\d{4}$/.test(s)) return false;
   const [d, m, y] = s.split('.').map(Number);
   if (m < 1 || m > 12 || d < 1 || d > 31) return false;
   const date = new Date(y, m - 1, d);
-  return date >= new Date(new Date().setHours(0,0,0,0));
+  return date >= new Date(new Date().setHours(0, 0, 0, 0));
 }
 
 // ── Validate ──────────────────────────────────────────────────────────────────
@@ -130,7 +197,6 @@ function validate() {
   data.lastName = F.surname.el.value.trim();
   if (!data.lastName) { setErr(F.surname.wrap); ok = false; }
 
-  // contact: at least one of phone / tg
   const phoneDigits = F.phone.el.value.replace(/\D/g, '');
   const tgVal       = F.tg.el.value.trim();
   const hasPhone    = phoneDigits.length >= 11;
@@ -149,70 +215,50 @@ function validate() {
   data.workType = F.work.el.value;
   if (!data.workType) { setErr(F.work.wrap); ok = false; }
 
-  // required: theme
   const dk = F.theme.el.value.trim();
-  if (!dk) {
-    setErr(F.theme.wrap);
-    ok = false;
-  }
+  if (!dk) { setErr(F.theme.wrap); ok = false; }
   data.theme = dk || null;
 
-  // optional: deadline
   const dl = F.deadline.el.value.trim();
-  if (dl && !isValidDate(dl)) {
-    setErr(F.deadline.wrap);
-    ok = false;
-  }
+  if (dl && !isValidDate(dl)) { setErr(F.deadline.wrap); ok = false; }
   data.deadline = dl || null;
 
-  // optional: reqs, comment
-  data.requirements = F.reqs.el.value.trim() || null;
+  data.requirements = F.reqs.el.value.trim()    || null;
   data.comment      = F.comment.el.value.trim() || null;
-
-  //optional: promo
-  data.promo      = F.promo.el.value.trim() || null;
+  data.promo        = F.promo.el.value.trim()   || null;
 
   if (!ok) return null;
 
-  const svc    = PRICES[data.workType];
-  data.amount  = svc.price;
-  data.currency= 'RUB';
-  data.userId  = tg?.initDataUnsafe?.user?.id ?? null;
-  data.initData= tg?.initData ?? null;
+  const svc     = PRICES[data.workType];
+  data.amount   = svc.price;
+  data.currency = 'RUB';
+  data.userId   = tg?.initDataUnsafe?.user?.id ?? null;
+  data.initData = tg?.initData ?? null;
 
   return data;
 }
 
-// ── Pay ──────────────────────────────────────────────────────────────────────
+// ── Pay ───────────────────────────────────────────────────────────────────────
 async function handlePay() {
   const payload = validate();
   if (!payload) return;
-
   setLoading(true);
-
   try {
-    const res  = await fetch('https://144.31.101.113.nip.io/api/payment/create', {
+    const res = await fetch('https://144.31.101.113.nip.io/api/payment/create', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
     });
-
     if (!res.ok) throw new Error('Server error ' + res.status);
     const data = await res.json();
-
     if (data.confirmation_url) {
-      if (tg) {
-        tg.openLink(data.confirmation_url);
-        tg.onEvent('popup_closed', showSuccess);
-      } else {
-        window.location.href = data.confirmation_url;
-      }
+      if (tg) { tg.openLink(data.confirmation_url); tg.onEvent('popup_closed', showSuccess); }
+      else window.location.href = data.confirmation_url;
     } else if (data.success) {
       showSuccess();
     } else {
       throw new Error(data.error || 'Неизвестная ошибка');
     }
-
   } catch (err) {
     console.error(err);
     setLoading(false);

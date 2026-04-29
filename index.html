@@ -3,264 +3,242 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#f2f3f5">
+  <meta name="theme-color" content="#141416">
   <title>Textify — Заказ работы</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Ambient background -->
-  <div class="bg" aria-hidden="true">
-    <div class="bg-grid"></div>
-    <div class="bg-blob bg-blob-1"></div>
-    <div class="bg-blob bg-blob-2"></div>
-    <div class="bg-blob bg-blob-3"></div>
-  </div>
+<!-- Ambient background -->
 
-  <!-- ── Success screen ──────────────────────────────────── -->
-  <div class="success-screen" id="successScreen" role="status" aria-live="polite">
-    <div class="success-ring">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
+
+<!-- ── Success screen ──────────────────────────────────── -->
+<div class="success-screen" id="successScreen" role="status" aria-live="polite">
+  <div class="success-ring">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <div class="success-eyebrow">Заказ принят</div>
+  <div class="success-title">Ожидаем когда специалист возьмет его в работу</div>
+  <div class="success-divider"></div>
+  <div class="success-sub">За статусом заказа можете следить в Telegram боте сервиса - t.me/Textify_user_bot</div>
+</div>
+
+<!-- ── Main form ────────────────────────────────────────── -->
+<main class="app" id="formWrap">
+
+  <!-- Brand header -->
+  <header class="header">
+    <div class="header-top">
+      <div class="brand-mark">
+        <img src="assets/logo.png" alt="Textify" class="brand-logo">
+      </div>
+      <div>
+        <div class="brand-name">Textify</div>
+        <div class="brand-tag">AI-ассистент для учёбы</div>
+      </div>
     </div>
-    <div class="success-eyebrow">Заказ принят</div>
-    <div class="success-title">Ожидаем когда специалист возьмет его в работу</div>
-    <div class="success-divider"></div>
-    <div class="success-sub">За статусом заказа можете следить в Telegram боте сервиса - t.me/Textify_user_bot</div>
-  </div>
+    <div class="header-divider"></div>
+    <h1>Оформление<br>заказа</h1>
+    <p class="header-sub">Заполните форму — мы подберём эксперта и&nbsp;нейросеть под вашу задачу.</p>
+  </header>
 
-  <!-- ── Main form ────────────────────────────────────────── -->
-  <main class="app" id="formWrap">
+  <!-- ── 1. Contact info ──────────────────────────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Контакты</span>
+    </div>
+    <div class="card">
 
-    <!-- Brand header -->
-    <header class="header">
-      <div class="header-top">
-        <div class="brand-mark">
-          <!-- T-mark icon: stylised neural/text symbol -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v18M8 3h8"/>
-            <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/>
-          </svg>
-        </div>
-        <div>
-          <div class="brand-name">Textify</div>
-          <div class="brand-tag">AI-ассистент для учёбы</div>
-        </div>
+      <div class="field" id="f-name">
+        <label for="firstName">
+          Имя <span class="req-star">*</span>
+        </label>
+        <input type="text" id="firstName" placeholder="Иван"
+               autocomplete="given-name" inputmode="text">
+        <div class="field-error">Введите имя</div>
       </div>
-      <div class="header-divider"></div>
-      <h1>Оформление<br>заказа</h1>
-      <p class="header-sub">Заполните форму — мы подберём эксперта и&nbsp;нейросеть под вашу задачу.</p>
-    </header>
 
-    <!-- ── 1. Contact info ──────────────────────────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Контакты</span>
+      <div class="field" id="f-surname">
+        <label for="lastName">
+          Фамилия <span class="req-star">*</span>
+        </label>
+        <input type="text" id="lastName" placeholder="Иванов"
+               autocomplete="family-name" inputmode="text">
+        <div class="field-error">Введите фамилию</div>
       </div>
-      <div class="card">
 
-        <div class="field" id="f-name">
-          <label for="firstName">
-            Имя <span class="req-star">*</span>
-          </label>
-          <input type="text" id="firstName" placeholder="Иван"
-                 autocomplete="given-name" inputmode="text">
-          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          <div class="field-error">Введите имя</div>
-        </div>
-
-        <div class="field" id="f-surname">
-          <label for="lastName">
-            Фамилия <span class="req-star">*</span>
-          </label>
-          <input type="text" id="lastName" placeholder="Иванов"
-                 autocomplete="family-name" inputmode="text">
-          <div class="field-error">Введите фамилию</div>
-        </div>
-
-        <div class="field" id="f-tg">
-          <label for="tgUser">
-            Telegram <span class="opt-tag">*</span>
-          </label>
-          <input type="text" id="tgUser" placeholder="@username"
-                 autocomplete="off" inputmode="text" autocorrect="off"
-                 autocapitalize="none" spellcheck="false">
-          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <path d="M21.2 5.9L17.5 19.4c-.3.9-1.4 1.2-2.1.6l-4.3-3.3-2.1 2c-.2.2-.6.3-.9.1l.5-4.7L17.3 8c.4-.3 0-.6-.4-.3L6 14.7l-4-1.3c-.9-.3-.9-1.5 0-1.8L19.8 4.6c.7-.3 1.6.2 1.4 1.3z"/>
-          </svg>
-          <div class="field-error">Введите корректный @username</div>
-        </div>
-
-        <div class="field" id="f-phone">
-          <label for="phone">
-            Телефон <span class="opt-tag">*</span>
-          </label>
-          <input type="tel" id="phone" placeholder="+7 900 000-00-00"
-                 autocomplete="tel" inputmode="tel" maxlength="16">
-          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-          <div class="field-error">Введите корректный номер</div>
-        </div>
-
-        <!-- contact validation note -->
-        <div class="contact-note" id="contactNote">
-          Укажите телефон или Telegram — хотя бы один контакт обязателен
-        </div>
-        <div class="contact-error" id="contactError">
-          Заполните хотя бы одно поле: телефон или Telegram
-        </div>
-
+      <div class="field" id="f-tg">
+        <label for="tgUser">
+          Telegram <span class="opt-tag">*</span>
+        </label>
+        <input type="text" id="tgUser" placeholder="@username"
+               autocomplete="off" inputmode="text" autocorrect="off"
+               autocapitalize="none" spellcheck="false">
+        <div class="field-error">Введите корректный @username</div>
       </div>
-    </section>
 
-    <!-- ── 2. Work type ─────────────────────────────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Тип работы</span>
-        <span class="section-badge">обязательно</span>
+      <div class="field" id="f-phone">
+        <label for="phone">
+          Телефон <span class="opt-tag">*</span>
+        </label>
+        <input type="tel" id="phone" placeholder="+7 900 000-00-00"
+               autocomplete="tel" inputmode="tel" maxlength="16">
+        <div class="field-error">Введите корректный номер</div>
       </div>
-      <div class="card">
 
-        <div class="field" id="f-work">
-          <select id="workType">
-            <option value="">Выберите тип работы</option>
-            <option value="coursework">Курсовая работа</option>
-            <option value="diploma">Дипломная работа (ВКР)</option>
-            <option value="project">Проект</option>
-            <option value="report">Доклад / реферат</option>
-            <option value="essay">Эссе</option>
-            <option value="practice">Отчёт по практике</option>
-            <option value="article">Научная статья</option>
-            <option value="other">Другое</option>
-          </select>
-          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+      <!-- contact validation note -->
+      <div class="contact-note" id="contactNote">
+        Укажите телефон или Telegram — хотя бы один контакт обязателен
+      </div>
+      <div class="contact-error" id="contactError">
+        Заполните хотя бы одно поле: телефон или Telegram
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 2. Work type ─────────────────────────────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Тип работы</span>
+      <span class="section-badge">обязательно</span>
+    </div>
+    <div class="card">
+
+      <div class="field field--select" id="f-work">
+        <!-- hidden native select for form value / JS compat -->
+        <select id="workType" style="display:none" aria-hidden="true">
+          <option value="">Выберите тип работы</option>
+          <option value="coursework">Курсовая работа</option>
+          <option value="diploma">Дипломная работа (ВКР)</option>
+          <option value="project">Проект</option>
+          <option value="report">Доклад / реферат</option>
+          <option value="essay">Эссе</option>
+          <option value="practice">Отчёт по практике</option>
+          <option value="article">Научная статья</option>
+          <option value="other">Другое</option>
+        </select>
+
+        <!-- custom trigger -->
+        <button type="button" class="cselect-trigger" id="workTypeTrigger"
+                aria-haspopup="listbox" aria-expanded="false" aria-controls="workTypeList">
+          <span class="cselect-value" id="workTypeValue">Выберите тип работы</span>
+          <svg class="cselect-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
-          <div class="field-error">Выберите вид работы</div>
-        </div>
+        </button>
 
+        <div class="field-error">Выберите вид работы</div>
       </div>
-    </section>
 
-    <!-- ── 3. Work Theme (required, auto-grow) ────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Тема</span>
-        <span class="section-badge">обязательно</span>
-      </div>
-      <div class="card">
-
-        <div class="field" id="f-theme">
-          <label for="theme">Название работы<span class="req-star">*</span></label>
-          <textarea id="theme" rows="1" required
-            placeholder="Генерация новых инструментов на основе музыкального произведения с помощью ИИ"></textarea>
-          <div class="field-error">Введите тему</div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── 4. Deadline (optional) ───────────────────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Срок сдачи</span>
-        <span class="section-badge">необязательно</span>
-      </div>
-      <div class="card">
-
-        <div class="field" id="f-deadline">
-          <input type="text" id="deadline" placeholder="31.05.2025"
-                 inputmode="numeric" maxlength="10" autocomplete="off">
-          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8"  y1="2" x2="8"  y2="6"/>
-            <line x1="3"  y1="10" x2="21" y2="10"/>
-          </svg>
-          <div class="field-hint">Формат: дд.мм.гггг</div>
-          <div class="field-error">Введите корректную дату (дд.мм.гггг), не раньше сегодня</div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── 5. Requirements (optional, auto-grow) ────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Требования</span>
-        <span class="section-badge">необязательно</span>
-      </div>
-      <div class="card">
-
-        <div class="field" id="f-reqs">
-          <textarea id="reqs" rows="2"
-            placeholder="Цели работы, объём страниц, источники, ГОСТ, уникальность и другие требования..."></textarea>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── 6. Comment (optional, auto-grow) ─────────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Комментарий</span>
-        <span class="section-badge">необязательно</span>
-      </div>
-      <div class="card">
-
-        <div class="field" id="f-comment">
-          <textarea id="comment" rows="2"
-            placeholder="Любые уточнения, пожелания или вопросы..."></textarea>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── 7. Promo (optional) ─────────────── -->
-    <section class="section">
-      <div class="section-header">
-        <span class="section-label">Промокод</span>
-        <span class="section-badge">необязательно</span>
-      </div>
-      <div class="card">
-
-        <div class="field" id="f-promo">
-          <textarea id="promo" rows="1"
-            placeholder="Реферальное промо для получения скидки"></textarea>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Price summary (shown after work selection) -->
-    <div class="price-card" id="priceCard">
-      <div>
-        <div class="price-meta-label">К оплате</div>
-        <div class="price-service" id="priceService"></div>
-      </div>
-      <div class="price-amount" id="priceAmount"></div>
     </div>
+  </section>
 
-  </main>
+  <!-- ── 3. Work Theme (required, auto-grow) ────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Тема</span>
+      <span class="section-badge">обязательно</span>
+    </div>
+    <div class="card">
 
-  <!-- ── Fixed pay button ──────────────────────────────────── -->
-  <div class="pay-wrap" id="payWrap">
-    <button class="pay-btn" id="payBtn" onclick="handlePay()">
-      <div class="btn-shimmer"></div>
-      <span id="btnLabel" style="display:flex;align-items:center;gap:9px;position:relative;">
+      <div class="field" id="f-theme">
+        <label for="theme">Название работы<span class="req-star">*</span></label>
+        <textarea id="theme" rows="1" required
+                  placeholder="Генерация новых инструментов на основе музыкального произведения с помощью ИИ"></textarea>
+        <div class="field-error">Введите тему</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 4. Deadline (optional) ───────────────────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Срок сдачи</span>
+      <span class="section-badge">необязательно</span>
+    </div>
+    <div class="card">
+
+      <div class="field" id="f-deadline">
+        <input type="text" id="deadline" placeholder="ДД.ММ.ГГГГ"
+               inputmode="numeric" maxlength="10" autocomplete="off">
+        <img class="field-icon" src="assets/date-icon.png" alt="" width="24" height="24">
+        <div class="field-error">Введите корректную дату (дд.мм.гггг), не раньше сегодня</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 5. Requirements (optional, auto-grow) ────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Требования</span>
+      <span class="section-badge">необязательно</span>
+    </div>
+    <div class="card">
+
+      <div class="field" id="f-reqs">
+          <textarea id="reqs" rows="2"
+                    placeholder="Цели работы, объём страниц, источники, ГОСТ, уникальность и другие требования..."></textarea>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 6. Comment (optional, auto-grow) ─────────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Комментарий</span>
+      <span class="section-badge">необязательно</span>
+    </div>
+    <div class="card">
+
+      <div class="field" id="f-comment">
+          <textarea id="comment" rows="2"
+                    placeholder="Любые уточнения, пожелания или вопросы..."></textarea>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 7. Promo (optional) ─────────────── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Промокод</span>
+      <span class="section-badge">необязательно</span>
+    </div>
+    <div class="card">
+
+      <div class="field" id="f-promo">
+          <textarea id="promo" rows="1"
+                    placeholder="Реферальное промо для получения скидки"></textarea>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Price summary (shown after work selection) -->
+  <div class="price-card" id="priceCard">
+    <div>
+      <div class="price-meta-label">К оплате</div>
+      <div class="price-service" id="priceService"></div>
+    </div>
+    <div class="price-amount" id="priceAmount"></div>
+  </div>
+
+</main>
+
+<!-- ── Fixed pay button ──────────────────────────────────── -->
+<div class="pay-wrap" id="payWrap">
+  <button class="pay-btn" id="payBtn" onclick="handlePay()">
+    <div class="btn-shimmer"></div>
+    <span id="btnLabel" style="display:flex;align-items:center;gap:9px;position:relative;">
         <svg class="btn-icon" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.8"
              stroke-linecap="round" stroke-linejoin="round">
@@ -269,9 +247,22 @@
         </svg>
         Оплатить
       </span>
-    </button>
-  </div>
+  </button>
+</div>
 
-  <script src="app.js"></script>
+<!-- dropdown вынесен на уровень body чтобы избежать backdrop-filter stacking context -->
+<ul class="cselect-list" id="workTypeList" role="listbox"
+    aria-label="Тип работы" tabindex="-1">
+  <li class="cselect-option" role="option" data-value="coursework"><img src="assets/work-icon.png" alt="" class="cso-icon">Курсовая работа</li>
+  <li class="cselect-option" role="option" data-value="diploma"><img src="assets/work-icon.png" alt="" class="cso-icon">Дипломная работа (ВКР)</li>
+  <li class="cselect-option" role="option" data-value="project"><img src="assets/work-icon.png" alt="" class="cso-icon">Проект</li>
+  <li class="cselect-option" role="option" data-value="report"><img src="assets/work-icon.png" alt="" class="cso-icon">Доклад / реферат</li>
+  <li class="cselect-option" role="option" data-value="essay"><img src="assets/work-icon.png" alt="" class="cso-icon">Эссе</li>
+  <li class="cselect-option" role="option" data-value="practice"><img src="assets/work-icon.png" alt="" class="cso-icon">Отчёт по практике</li>
+  <li class="cselect-option" role="option" data-value="article"><img src="assets/work-icon.png" alt="" class="cso-icon">Научная статья</li>
+  <li class="cselect-option" role="option" data-value="other"><img src="assets/work-icon.png" alt="" class="cso-icon">Другое</li>
+</ul>
+
+<script src="app.js"></script>
 </body>
 </html>
