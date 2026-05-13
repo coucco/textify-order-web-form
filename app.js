@@ -3,13 +3,11 @@ if (tg) { tg.ready(); tg.expand(); }
 
 // ── Prices ──────────────────────────────────────────────────────────────────
 const PRICES = {
-  coursework: { label: 'Курсовая работа',   price: 3500 },
-  diploma:    { label: 'Дипломная работа',  price: 9900 },
-  project:    { label: 'Проект',            price: 5500 },
-  report:     { label: 'Доклад / реферат',  price: 1800 },
-  essay:      { label: 'Эссе',              price: 1200 },
-  practice:   { label: 'Отчёт по практике', price: 4200 },
-  article:    { label: 'Научная статья',    price: 6800 },
+  coursework: { label: 'Курсовая работа',   price: 2500 },
+  diploma:    { label: 'Дипломная работа',  price: 5000 },
+  report:     { label: 'Доклад / Реферат',  price: 500 },
+  essay:      { label: 'Статья',              price: 1000 },
+  project:    { label: 'Итоговый проект',   price: 1500 },
   other:      { label: 'Другое',            price: 1    },
 };
 
@@ -244,7 +242,7 @@ async function handlePay() {
   if (!payload) return;
   setLoading(true);
   try {
-    const res = await fetch('https://144.31.101.113.nip.io/api/payment/create', {
+    const res = await fetch('http://192.168.0.34/api/payment/create', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
