@@ -242,7 +242,7 @@ async function handlePay() {
   if (!payload) return;
   setLoading(true);
   try {
-    const res = await fetch('http://192.168.0.34/api/payment/create', {
+    const res = await fetch('https://conventions-among-factors-bob.trycloudflare.com/api/payment/create', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
